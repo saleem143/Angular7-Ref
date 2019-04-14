@@ -1,0 +1,10 @@
+<div>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<app-server2></app-server2>
+<!--<app-test></app-test> 1st way--> 
+<!-- <div  class="app-test"></div> 2nd way-->
+<h1 style="color:red">{{msg}}</h1>
+<app-test (childevent)="msg=$event" [parentdata]="namefrompar"></app-test>
+</div>
+
+<router-outlet></router-outlet>
