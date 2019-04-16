@@ -5,6 +5,14 @@
 <!-- <div  class="app-test"></div> 2nd way-->
 <h1 style="color:red">{{msg}}</h1>
 <app-test (childevent)="msg=$event" [parentdata]="namefrompar"></app-test>
+<h1>Services__________________________________better to declare are register in app component so that all its child component can be use of it_____________________________</h1>
+  <ul><li>three steps to use services</li><li>define employee service class</li><li>register with injector</li><li>declare as dependency in employeelist and employee details</li></ul>
+<app-employee-list></app-employee-list>
+<p>------------------------</p>
+<h1>emplyoee details</h1>
+<app-emplyoee-details></app-emplyoee-details><br>
+---------------------------------------------------------------
+<h1>Routing And navigation</h1>
 </div>
 
 <router-outlet></router-outlet>
