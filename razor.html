@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body style="padding:20px">
+    <h3>Payment through razor pay</h3>
+
+    <!-- <button class="js-pay-bundle" data-itemid="gold200" data-amount="1325" data-processorid="razor" data-qty="1">200 coins</button>
+    <button class="js-pay-bundle" data-itemid="gold500" data-amount="3310" data-processorid="razor" data-qty="1">500 coins</button>
+    <button class="js-pay-bundle" data-itemid="gold1000" data-amount="6612" data-processorid="razor" data-qty="1">1,000 coins</button> -->
+    <button class="js-pay-bundle btn btn-primary" data-itemid="gold1000" data-amount="6612" data-processorid="razor" data-qty="1">Razer Pay</button>
+    <script>
+            // Function to lazy load a script
+            // -----------------------------------------------
+            var loadExternalScript = function(path) {
+              var result = $.Deferred(),
+                  script = document.createElement("script");
+          
+              script.async = "async";
+              script.type = "text/javascript";
+              script.src = path;
+              script.onload = script.onreadystatechange = function(_, isAbort) {
+                if (!script.readyState || /loaded|complete/.test(script.readyState)) {
+                  if (isAbort)
+                    result.reject();
+                  else
+                    result.resolve();
+                }
+              };
+          
+              script.onerror = function() {
+                result.reject();
+              };
+          
+              $("head")[0].appendChild(script);
+          
+              return result.promise();
+            };
+          </script>
+          <script>
+             // Use loadScript to load the Razorpay checkout.js
+// -----------------------------------------------
+var callRazorPayScript = function(itemId, amount, qty, processorId) {
+  var merchangeName = "Saleem",
+      img = "https://pbs.twimg.com/profile_images/737615728338034689/eqHCsx8e_400x400.jpg",
+      name = "Harshil Hill",
+      description = "Purchase Description",
+      amount = amount,
+      qty = qty;
+      
+  loadExternalScript('https://checkout.razorpay.com/v1/checkout.js').then(function() { 
+    var options = {
+      key: 'rzp_test_gxjWleiESHjLXR',
+      protocol: 'https',
+      hostname: 'api.razorpay.com',
+      amount: 25*100,
+      name: merchangeName,
+      description: description,
+      image: img,
+      prefill: {
+        name: name,
+      },
+       theme: {
+         color: '#007bff'
+       },
+      handler: function (transaction, response){
+        console.log('Tshirt\\ntransaction id: ' + transaction.razorpay_payment_id);
+        console.log(response.razorpay_payment_id)
+      }
+    };
+
+    window.rzpay = new Razorpay(options);
+
+		console.log('Item Id: ', amount);
+    console.log('Amount: ', amount);
+    console.log('Quantity: ', qty);
+    console.log('Processor Id: ', processorId);
+
+    rzpay.open();
+  });
+}
+
+// Trigger call to action buttons depending on the bundle packs
+// -----------------------------------------------
+var $payBundle = $('.js-pay-bundle');
+
+$payBundle.on('click', function() {
+	var itemId = $(this).data('itemid'),
+			amount = $(this).data('amount'),
+			processorid = $(this).data('processorid'),
+			qty = $(this).data('qty');
+
+	callRazorPayScript(itemId, amount, processorid, qty);
+});
+          </script>
+</body>
