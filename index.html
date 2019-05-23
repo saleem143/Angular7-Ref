@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AaAbHAk4Nkf3udQEN5t0kFhlpzw6ncSWe3a0VdewG7z3tNS_KU0qN6S_f8vWno2HQWQjf0wUdsmVVgnh&currency=INR">
+  </script>
+  <div id="paypal-button-container"></div>
+
+  <script>
+   paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '1'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+        console.log(JSON.stringify(data)+"data");
+        console.log(JSON.stringify(actions)+"actions");
+      return actions.order.capture().then(function(details) {
+        console.log(JSON.stringify(details)+"details after succes");
+        alert('Transaction completed by ' + details.payer.name.given_name);
+        // Call your server to save the transaction
+    //   //   return fetch('https://api.sandbox.paypal.com/v1/payments/paypal-transaction-complete', {
+    //   //     method: 'post',
+    //   //     headers: {
+    //   //       'content-type': 'application/json'
+    //   //     },
+    //   //     body: JSON.stringify({
+    //   //       orderID: data.orderID
+    //   //     })
+    //   //   });
+       });
+     }
+  }).render('#paypal-button-container');
+  </script>
+</body>
